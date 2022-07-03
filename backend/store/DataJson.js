@@ -1,6 +1,6 @@
-import { table } from 'console';
-import { response } from 'express';
-import fs from 'fs';
+import { table } from 'console'
+import { response } from 'express'
+import fs from 'fs'
 
 export class DataJson {
   constructor () {
@@ -8,14 +8,14 @@ export class DataJson {
     this.setTables()
   }
 
-  setTables(){
+  setTables () {
     const tables = {
       user: [],
       song: [],
       playlist: []
     }
     const items = this.readJsonFile()
-    if(items.length === 0){
+    if (items.length === 0) {
       this.writeJsonFile(tables)
     }
   }
@@ -33,10 +33,10 @@ export class DataJson {
     fs.writeFileSync(this._dataPath, jsonData)
   }
 
-  generatePk(table){
+  generatePk (table) {
     const lastItem = this.all(table).pop()
-    if(lastItem){
-      return ++lastItem._id 
+    if (lastItem) {
+      return ++lastItem._id
     }
     return 1
   }
@@ -48,13 +48,14 @@ export class DataJson {
     this.writeJsonFile(items)
     return 'Created a new song'
   }
-  all(table){
+
+  all (table) {
     const items = this.readJsonFile()
     return items[table] || table
   }
 }
 
-/*const data = new DataJson()
+/* const data = new DataJson()
 data.save('user',{id: null, name:"Daniel",singer:"Bernal"})
 const result = data.all('user')
-console.table(result)*/
+console.table(result) */

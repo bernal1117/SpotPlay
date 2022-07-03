@@ -1,4 +1,4 @@
- class Song {
+class Song {
   constructor (song) {
     this._id = null
     this._title = song.title
@@ -10,15 +10,17 @@
 
     // this._album = song.album;
   }
-get id ( ) {
+
+  get id () {
     return this._id
   }
-  set id (id){
+
+  set id (id) {
     return this._id
   }
 
   returnNumber () {
-    return 5 
-  }  
+    return 5
+  }
 }
 export default Song

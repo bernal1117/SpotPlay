@@ -17,6 +17,9 @@
     "nodemon": "^2.0.18",
     "standard": "^17.0.0"
   },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
