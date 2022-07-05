@@ -7,7 +7,7 @@ class UserController {
     this._hashPassword = hashPassword
   }
 
-  createNewUser (user) {
+  createNewUser (user) { // POST
     console.log(user)
     if (user.username && user.email && user.password) {
       const newUser = new this._entity(user)
@@ -21,8 +21,8 @@ class UserController {
     }
   }
 
-  getAllSong () {
-    const response = this._service.all('song')
+  getAllUser () {
+    const response = this._service.all('user')
     return response
   }
 

@@ -1,5 +1,4 @@
-import { table } from 'console'
-import { response } from 'express'
+
 import fs from 'fs'
 
 export class DataJson {
@@ -46,14 +45,27 @@ export class DataJson {
     data._id = this.generatePk(table)
     items[table].push(data)
     this.writeJsonFile(items)
-    return 'Created a new song'
+    return 'created succesfully'
   }
 
   all (table) {
     const items = this.readJsonFile()
     return items[table] || table
   }
+
+  finByAtribute (table, atribute, value) {
+    const items = this.readJsonFile()
+    const item = items[table].find(item => item[atribute] === value)
+    if (item) {
+      return item
+    }
+    return null
+  }
 }
+
+/* const test = new DataJson()
+const result = test.finByAtribute('song', '_title', 'song.title')
+console.table(result) */
 
 /* const data = new DataJson()
 data.save('user',{id: null, name:"Daniel",singer:"Bernal"})

@@ -1,5 +1,4 @@
 
-
 export default class UserRouter {
   constructor (router, controller, response, httpCode, createUserValidation) {
     this._router = router() // instancia del enrutador de express
@@ -11,25 +10,26 @@ export default class UserRouter {
   }
 
   registerRoutes () {
-    this._router.post('/singup', this._chekUser, this.handleSingUp.bind(this))
+    this._router.get('/', this.handleGetUser.bind(this))
+    this._router.post('/', this._chekUser, this.handleSingUp.bind(this))
     // this._router.delete('/', this.handleDeleteSong.bind(this))
     // this._router.put('/', this.handlePutSong.bind(this))
   }
 
-  handleSingUp (req, res) {
+  handleSingUp (req, res) { // POST
     const result = this._ctrl.createNewUser(req.body)
     if (result instanceof Error) {
-      this._response.error(req, res, result, 201)
+      this._response.error(req, res, result, this._httpCode.Error)
     }
-    this._response.success(req, res, result, this._httpCode.ok)
+    this._response.succes(req, res, result, this._httpCode.OK)
   }
 
-  handleGetSong (req, res) {
+  handleGetUser (req, res) {
     try {
-      const result = this._ctrl.getAllSong()
-      this._response.success(req, res, result, this._httpCode.ok)
+      const result = this._ctrl.getAllUser()
+      this._response.succes(req, res, result, this._httpCode.ok)
       if (result.length === 0) {
-        this._response.success(req, res, 'No hay canciones', this._httpCode.not_found)
+        this._response.succes(req, res, 'No hay usuarios', this._httpCode.not_found)
       }
     } catch (error) {
       this._response.error(req, res, error, this._httpCode.internal_server_error)
@@ -38,11 +38,11 @@ export default class UserRouter {
 
   handleDeleteSong (req, res) {
     console.log(req)
-    res.send('soy el manejador de la ruta delet/song')
+    res.send('soy el manejador de la ruta delet/user')
   }
 
   handlePutSong (req, res) {
     console.log(req)
-    res.send('soy el manejador de la ruta put/song')
+    res.send('soy el manejador de la ruta put/user')
   }
 }
