@@ -1,1 +1,1 @@
-{"user":[],"song":[],"playlist":[],"artist":[{"_id":1,"_firstname":"Post","_lastname":"Malone","_avatar":"avatar"}]}
+{"user":[{"_id":1,"_username":"daniel","_email":"daniel@gmail.com","_password":"$2b$10$ccq8N8I4/2j16/DWTBOc7eqxTTC3BE4n.24yS7/vatevZbSWoW1Zm"},{"_id":2,"_username":"string","_email":"string@gmail.com","_password":"$2b$10$5KOU914YCUipRi8zn4nKOOByp1cikdH.p4JhcYigkonBuH.a/tAqO"}],"song":[],"playlist":[],"artist":[{"_id":1,"_firstname":"Post","_lastname":"Malone","_avatar":"avatar"}]}

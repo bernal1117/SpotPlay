@@ -12,11 +12,13 @@ servers:
 - url: http://localhost:4000/api/v1
 tags:
 - name: Song
-  description: canciones de la aplicacion
+  description: In this section are the SpotPlay songs
 - name: User
-  description: usuarios de la plataforma
+  description: In this section are the users of SpotPlay
 - name: Playlist
-  description: playlist de usuarios
+  description: In this section are the SpotPlay playlist
+- name: Artist
+  description: In this section are the SpotPlay artists
 components:
   schemas:
     Song:
@@ -86,3 +88,33 @@ paths:
           description: not found
           content: {}
     x-codegen-request-body-name: body
+  /user/getuser:
+    get:
+      tags:
+      - User
+      summary: "Find user by ID"
+      description: "Returns a single user"
+      operationId: "getUserById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: Succesful operation
+          schema:
+            $ref: '#/components/schemas/User'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+      security:
+      - api_key: []
