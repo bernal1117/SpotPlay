@@ -11,6 +11,7 @@ import { dirname, join } from 'path'
 import { userModule } from './user/index.js'
 import { songModule } from './song/index.js'
 import { authModule } from './auth/index.js'
+import { playlistModule } from './playlist/index.js'
 
 export class Server {
   constructor (config) {
@@ -37,6 +38,7 @@ export class Server {
     this._app.use('/api/v1/song', songModule())
     this._app.use('/api/v1/user', userModule(express.Router))
     this._app.use('/api/v1/auth', authModule(express.Router))
+    this._app.use('/api/v1/playlist', playlistModule(express.Router))
     this._app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(this._swaggerFile)) // path de la documentacion
   }
 
