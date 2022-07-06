@@ -63,9 +63,9 @@ export class DataJson {
   }
 }
 
-/* const test = new DataJson()
-const result = test.finByAtribute('song', '_title', 'song.title')
-console.table(result) */
+const test = new DataJson()
+const result = test.finByAtribute('user', '_username', 'daniel')
+console.table(result)
 
 /* const data = new DataJson()
 data.save('user',{id: null, name:"Daniel",singer:"Bernal"})

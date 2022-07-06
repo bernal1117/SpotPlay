@@ -10,8 +10,8 @@ export default class UserRouter {
   }
 
   registerRoutes () {
-    this._router.get('/', this.handleGetUser.bind(this))
-    this._router.post('/', this._chekUser, this.handleSingUp.bind(this))
+    this._router.get('/getuser', this.handleGetUser.bind(this))
+    this._router.post('/signup', this._chekUser, this.handleSingUp.bind(this))
     // this._router.delete('/', this.handleDeleteSong.bind(this))
     // this._router.put('/', this.handlePutSong.bind(this))
   }
@@ -38,7 +38,7 @@ export default class UserRouter {
 
   handleDeleteSong (req, res) {
     console.log(req)
-    res.send('soy el manejador de la ruta delet/user')
+    res.send('soy el manejador de la ruta delete/user')
   }
 
   handlePutSong (req, res) {
