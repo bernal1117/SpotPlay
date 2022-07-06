@@ -11,7 +11,8 @@ export class DataJson {
     const tables = {
       user: [],
       song: [],
-      playlist: []
+      playlist: [],
+      artist: []
     }
     const items = this.readJsonFile()
     if (items.length === 0) {
