@@ -11,10 +11,10 @@ class SongRouter {
   }
 
   registerRoutes () {
-    this._router.get('/', this.handleGetSong.bind(this)) // bind para cambiar el contexto del this y que lea el handleGetSong y usar controllers
-    this._router.post('/', this.handlePostSong.bind(this))
-    this._router.delete('/', this.handleDeleteSong.bind(this))
-    this._router.put('/', this.handlePutSong.bind(this))
+    this._router.get('/allsongs', this.handleGetSong.bind(this)) // bind para cambiar el contexto del this y que lea el handleGetSong y usar controllers
+    this._router.post('/newsong', this.handlePostSong.bind(this))
+    this._router.delete('/deletesong', this.handleDeleteSong.bind(this))
+    // this._router.put('/', this.handlePutSong.bind(this))
   }
 
   //  METODOS PARA REFACTORIZAR

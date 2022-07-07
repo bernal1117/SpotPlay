@@ -12,8 +12,8 @@ export default class UserRouter {
   registerRoutes () {
     this._router.get('/getuser', this.handleGetUser.bind(this))
     this._router.post('/signup', this._chekUser, this.handleSingUp.bind(this))
-    // this._router.delete('/', this.handleDeleteSong.bind(this))
-    // this._router.put('/', this.handlePutSong.bind(this))
+    this._router.delete('/deleteuser', this.handleDeleteSong.bind(this))
+    this._router.put('/updateuser', this.handlePutSong.bind(this))
   }
 
   handleSingUp (req, res) { // POST

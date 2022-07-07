@@ -13,8 +13,8 @@ class PlaylistRouter {
   registerRoutes () {
     this._router.get('/getplaylist', this.handleGetPlaylist.bind(this)) // bind para cambiar el contexto del this y que lea el handleGetSong y usar controllers
     this._router.post('/createplaylist', this.handlePostPlaylist.bind(this))
-    this._router.delete('/', this.handleDeleteSong.bind(this))
-    this._router.put('/', this.handlePutSong.bind(this))
+    this._router.delete('/deleteplaylist', this.handleDeleteSong.bind(this))
+    this._router.put('/addnewsong', this.handlePutSong.bind(this))
   }
 
   //  METODOS PARA REFACTORIZAR
@@ -31,12 +31,12 @@ class PlaylistRouter {
 
   handleDeleteSong (req, res) {
     console.log(req)
-    res.send('Soy el manejador de la ruta delete/Song')
+    res.send('Soy el manejador de la ruta delete/Playlist')
   }
 
   handlePutSong (req, res) {
     console.log(req)
-    res.send('Soy el manejador de la ruta put/Song')
+    res.send('Soy el manejador de la ruta put/Playlist')
   }
 }
 

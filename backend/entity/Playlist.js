@@ -3,7 +3,7 @@ class Playlist {
     this._id = null
     this._title = playlist.title
     this._img = playlist.img
-    // this._song = playlist.song;
+    this._song = null
   }
 }
 export default Playlist
