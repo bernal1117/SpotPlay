@@ -22,7 +22,7 @@ class UserController {
   }
 
   async getAllUser () {
-    const response = await this._service.all() // recibe algo
+    const response = await this._service.all('users') // recibe algo
     return response
   }
 

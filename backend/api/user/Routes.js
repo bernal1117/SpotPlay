@@ -1,16 +1,17 @@
 
 export default class UserRouter {
-  constructor (router, controller, response, httpCode, createUserValidation) {
+  constructor (router, controller, response, httpCode, createUserValidation, checkToken) {
     this._router = router() // instancia del enrutador de express
     this._ctrl = controller
     this._response = response
     this._httpCode = httpCode
     this._chekUser = createUserValidation
+    this._checkToken = checkToken
     this.registerRoutes()
   }
 
   registerRoutes () {
-    this._router.get('/getuser', this.handleGetUser.bind(this)) // usar expresiones regulares con las querys string
+    this._router.get('/getuser', /* this._checkToken */ this.handleGetUser.bind(this)) // usar expresiones regulares con las querys string
     this._router.post('/signup', this._chekUser, this.handleSingUp.bind(this)) // /signup/:parametro para enviar parametros desde la ruta
     this._router.delete('/deleteuser', this.handleDeleteUser.bind(this))
     this._router.put('/updateuser', this.handlePutSong.bind(this))
@@ -36,7 +37,7 @@ export default class UserRouter {
     }
     const para1 = req.query.parametros
     console.log(para1)
-    res.json({ 'message': "Bien hecho" }) // esto para recibir parametros en la ruta
+    // res.json({ 'message': "Bien hecho" }) // esto para recibir parametros en la ruta
   }
 
   async handleGetUser (req, res) {

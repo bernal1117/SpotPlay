@@ -7,14 +7,14 @@ class SongController {
     this._entity = song
   }
 
-  getAllSong () { // GET
-    const response = this._service.all('song')
+  async getAllSong () { // GET
+    const response = await this._service.all('songs')
     return response
   }
 
-  createNewSong (song) { // POST
-    const newSong = new this._entity(song)
-    const response = this._service.save('song', newSong)
+  async createNewSong (song) { // POST
+    const newSong = await new this._entity(song)
+    const response = this._service.insertData('songs', newSong) // insertData viene de DBMongo.js
     return response
   }
 

@@ -6,8 +6,8 @@ export const helpers = {
   encryptPassword: (password) => {
     return bcrypt.hashSync(password, 10)
   },
-  comparePassword: (password, hashPassword) => {
-    return bcrypt.compareSync(password, hashPassword)
+  comparePassword: async (password, hashPassword) => {
+    return await bcrypt.compareSync(password, hashPassword)
   },
   generateToken: (idUser) => {
     return jwt.sign({

@@ -1,96 +1,149 @@
 import mongoose from 'mongoose'
 import { config } from '../config/default.js'
-
-export const mongodb = async () => {
-  try {
-    const db = await mongoose.connect(config.dbMongo.uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    console.log(`MongoDB connected: ${db.connection.host}`)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-mongodb()
-// Crear un esquema para la base de datos
-const userSchema = new mongoose.Schema({
-  _username: {
-    type: String,
-    required: true
-  },
-  _email: {
-    type: String,
-    required: true
-  },
-  _password: {
-    type: String,
-    required: true
-  }
-})
-
-const songSchema = new mongoose.Schema({
-  _title: {
-    type: String,
-    required: true
-  },
-  _uri: {
-    type: String,
-    required: true
-  },
-  _description: {
-    type: String,
-    required: true
-  }
-})
-
-// Para interactuar con mongoose y sus metodos
-const userModel = mongoose.model('User', userSchema)
-const songModel = mongoose.model('Song', songSchema)
+import { models } from './Schemas.js'
 
 export default class DBMongo {
   constructor () {
-    this._models = {}
-    this.loadModels()
+    this.setConnection()
+    this._models = models
   }
 
-  loadModels () {
-    this._models.user = userModel
-    this._models.song = songModel
-    // console.log(this._models)
+  async setConnection () {
+    try {
+      const db = await mongoose.connect(config.dbMongo.uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      console.log(`MongoDB connected: ${db.connection.host}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async insertData (model, data) {
-    /* const newModel = this.model(data)
-    return await newModel.save() */
-
-    const newUser = userModel(data)
-    const res = await newUser.save()
-    console.log(res)
-    return 'OK'
+    try {
+      const modelInstance = this._models[model](data)
+      const saved = await modelInstance.save()
+      if (Object.keys(saved).length > 0) {
+        return `create new item of ${model} successfully`
+      }
+      return `create new item of ${model} failed`
+    } catch (error) {
+      console.log(error)
+      return `create new item of ${model} failed`
+    }
   }
 
-  async all () {
-    const res = await userModel.find()
-    return res
+  async all (model) {
+    try {
+      const all = await this._models[model].find()
+      if (Object.keys(all).length > 0) {
+        return all
+      }
+      return `no item of ${model}`
+    } catch (error) {
+      console.log(error)
+      return `no item of ${model}`
+    }
   }
 
-  async delete (id) {
-    const res = await userModel.findByIdAndDelete(id)
-    return res
+  async findById (model, id) {
+    try {
+      const findById = await this._models[model].findById(id)
+      if (findById) {
+        return findById
+      }
+      return `no item of ${model}`
+    } catch (error) {
+      console.log(error)
+      return `no item of ${model}`
+    }
   }
 
-  async update (id, data) {
-    const res = await userModel.findByIdAndUpdate(id, data)
-    return res
+  async findByAttribute (model, attribute, value) {
+    try {
+      const findByAttribute = await this._models[model].find({ [attribute]: value })
+      if (findByAttribute.length > 0) {
+        return findByAttribute
+      }
+      return `no item of ${model}`
+    } catch (error) {
+      console.log(error)
+      return `no item of ${model}`
+    }
+  }
+
+  async update (model, id, data) {
+    try {
+      const update = await this._models[model].findByIdAndUpdate(id, data)
+      if (update) {
+        return `update item of ${model} successfully`
+      }
+      return `update item of ${model} failed`
+    } catch (error) {
+      console.log(error)
+      return `update item of ${model} failed`
+    }
+  }
+
+  async delete (model, id) {
+    try {
+      const deleteItem = await this._models[model].findByIdAndDelete(id)
+      if (deleteItem) {
+        return `delete item of ${model} successfully`
+      }
+      return `delete item of ${model} failed`
+    } catch (error) {
+      console.log(error)
+      return `delete item of ${model} failed`
+    }
+  }
+
+  async searchSongTitleAndArtist (title, artist) {
+    try {
+      const searchSong = await this._models.Songs.find({
+        _title: { $regex: title, $options: 'i' },
+        _artist: { $regex: artist, $options: 'i' }
+      })
+      if (searchSong.length > 0) {
+        return searchSong
+      }
+      return 'no item of Songs'
+    } catch (error) {
+      console.log(error)
+      return 'no item of Songs'
+    }
+  }
+
+  async searchSongString (search) {
+    try {
+      const searchSong = await this._models.Songs.find({
+        $or: [
+          { _title: { $regex: search, $options: 'i' } },
+          { _artist: { $regex: search, $options: 'i' } },
+          { _album: { $regex: search, $options: 'i' } }
+        ]
+      })
+      if (searchSong.length > 0) {
+        return searchSong
+      }
+      return 'no item of Songs'
+    } catch (error) {
+      console.log(error)
+      return 'no item of Songs'
+    }
+  }
+
+  async getByQuery (model, query) {
+    try {
+      const getByQuery = await this._models[model].find(query).populate('_idArtist').populate('_idAlbum')
+      if (getByQuery.length > 0) {
+        return getByQuery
+      }
+      return 'no item of Songs'
+    } catch (error) {
+      console.log(error)
+      return 'no item of Songs'
+    }
   }
 }
-
-// const test = new DBMongo()
-// test.update('62c7090e1d89c2a0f1de58a0', { _email: 'cambio@email.com' }).then(result => { console.log(result) }, error => { console.log(error) })
-// test.delete('62c70718f5aa70b4d9a7309c').then(result => { console.log(result) }, error => { console.log(error) })
-// test.all().then(result => { console.log(result) }, error => { console.log(error) })
-// test.insertData({ _username: 'test3', _email: 'email3', _password: '123' }).then(result => { console.log(result) }, error => { console.log(error) })
-/* test.insertData(userModel, { _username: 'test3', _email: 'email3', _password: '123' }
-).then(result => { console.log(result) }, error => { console.log(error) }) */
