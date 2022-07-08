@@ -1,39 +1,44 @@
 // los controller se encargar de realizar la logica del negocio
 
 class UserController {
-  constructor (serviceUser, user, hashPassword) {
+  constructor (serviceUser, userModel, hashPassword) {
     this._service = serviceUser
-    this._entity = user
+    this._entity = userModel
     this._hashPassword = hashPassword
   }
 
-  createNewUser (user) { // POST
+  async createNewUser (user) { // POST
     console.log(user)
     if (user.username && user.email && user.password) {
       const newUser = new this._entity(user)
       console.log(newUser)
       newUser.encryptPassword(user.password, this._hashPassword)
       console.log(newUser)
-      const response = this._service.save('user', newUser)
-      return response
+      const response = await this._service.insertData('users', newUser)
+      return (response, 'Created succesfully')
     } else {
       throw new Error('Missing parameters')
     }
   }
 
-  getAllUser () {
-    const response = this._service.all('user')
+  async getAllUser () {
+    const response = await this._service.all() // recibe algo
     return response
   }
+
+  /* getAllUser () {
+    const response = this._service.all('user')
+    return response
+  } */
 
   updateSong (song) {
     console.log(song)
     return 'updated a song'
   }
 
-  deleteSong (id) {
-    console.log(id)
-    return 'deleted a song'
+  async deleteUser () {
+    const response = await this._service.delete() // recibe algo
+    return response
   }
 }
 

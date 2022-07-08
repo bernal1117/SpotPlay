@@ -1,6 +1,15 @@
 
 import fs from 'fs'
+// BASE DE DATOS SQL
+// Sigue crear un capa de procedimientos almacenados y llamar a los metodos a ejecutar o integrar un ORM es practicamente lo que hace mongoose
+// typeORM, sequelaser ----> ORM
 
+// BASE DE DATOS NO SQL
+// Implementar agregates ---> store procedures
+
+// No escribir codigo quemado
+// Tratar de refactorizar cuando el codigo cumpla con los requsitos de lo que debe de hacer
+// LEER CLEAN CODE - R.S MARTIN
 export class DataJson {
   constructor () {
     this._dataPath = './store/db.json'
@@ -64,9 +73,9 @@ export class DataJson {
   }
 }
 
-const test = new DataJson()
+/* const test = new DataJson()
 const result = test.finByAtribute('user', '_username', 'daniel')
-console.table(result)
+console.table(result) */
 
 /* const data = new DataJson()
 data.save('user',{id: null, name:"Daniel",singer:"Bernal"})

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { config } from '../config/default.js'
 
-const mongodb = async () => {
+export const mongodb = async () => {
   try {
     const db = await mongoose.connect(config.dbMongo.uri, {
       useNewUrlParser: true,
@@ -30,11 +30,41 @@ const userSchema = new mongoose.Schema({
   }
 })
 
+const songSchema = new mongoose.Schema({
+  _title: {
+    type: String,
+    required: true
+  },
+  _uri: {
+    type: String,
+    required: true
+  },
+  _description: {
+    type: String,
+    required: true
+  }
+})
+
 // Para interactuar con mongoose y sus metodos
 const userModel = mongoose.model('User', userSchema)
+const songModel = mongoose.model('Song', songSchema)
 
-class DBMongo {
-  async insertData (data) {
+export default class DBMongo {
+  constructor () {
+    this._models = {}
+    this.loadModels()
+  }
+
+  loadModels () {
+    this._models.user = userModel
+    this._models.song = songModel
+    // console.log(this._models)
+  }
+
+  async insertData (model, data) {
+    /* const newModel = this.model(data)
+    return await newModel.save() */
+
     const newUser = userModel(data)
     const res = await newUser.save()
     console.log(res)
@@ -43,7 +73,7 @@ class DBMongo {
 
   async all () {
     const res = await userModel.find()
-    return JSON.stringify(res)
+    return res
   }
 
   async delete (id) {
@@ -57,8 +87,10 @@ class DBMongo {
   }
 }
 
-const test = new DBMongo()
+// const test = new DBMongo()
 // test.update('62c7090e1d89c2a0f1de58a0', { _email: 'cambio@email.com' }).then(result => { console.log(result) }, error => { console.log(error) })
 // test.delete('62c70718f5aa70b4d9a7309c').then(result => { console.log(result) }, error => { console.log(error) })
 // test.all().then(result => { console.log(result) }, error => { console.log(error) })
-test.insertData({ _username: 'test3', _email: 'email3', _password: '123' }).then(result => { console.log(result) }, error => { console.log(error) })
+// test.insertData({ _username: 'test3', _email: 'email3', _password: '123' }).then(result => { console.log(result) }, error => { console.log(error) })
+/* test.insertData(userModel, { _username: 'test3', _email: 'email3', _password: '123' }
+).then(result => { console.log(result) }, error => { console.log(error) }) */
